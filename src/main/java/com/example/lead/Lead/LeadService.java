@@ -33,6 +33,18 @@ public class LeadService {
         return leadEncontrada.get();
     }
 
+    public boolean verificarLeadRepetido (LeadDto leadDto){
+        boolean leadCadastrado = false;
+        for (LeadDto referencia : leads){
+            if (referencia.getEmail().equalsIgnoreCase(leadDto.getEmail()) &
+            referencia.getNome().equalsIgnoreCase(leadDto.getNome()) &
+            referencia.getTelefone().equalsIgnoreCase(leadDto.getTelefone())){
+                leadCadastrado = true;
+            }
+        }
+        return leadCadastrado;
+    }
+
 
 
 }
