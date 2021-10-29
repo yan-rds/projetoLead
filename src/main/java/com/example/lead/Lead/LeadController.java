@@ -2,9 +2,8 @@ package com.example.lead.Lead;
 
 import com.example.lead.Lead.DTOs.LeadDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +19,15 @@ public class LeadController {
         return leadService.exibirLeads();
     }
 
+    @GetMapping("/{nome}")
+    public LeadDto encontrarLead (@PathVariable String nome){
+        return leadService.encontrarLead(nome);
+    }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void cadastrarLead (@RequestBody LeadDto leadDto){
+        leadService.cadastrarLead(leadDto);
+    }
 
 }
