@@ -4,15 +4,12 @@ import com.example.lead.Lead.DTOs.LeadDto;
 import com.example.lead.Lead.DTOs.ProdutoDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 @Service
 public class LeadService {
@@ -23,9 +20,23 @@ public class LeadService {
         return leads;
     }
 
+    public void verificarProdutosIguais (String nome, LeadDto leadDto){
+        LeadDto leadExistente = encontrarLead(nome);
+        int numeroDeProdutos = leadDto.getProdutos().size();
+        while (numeroDeProdutos != 0){
+          for (ProdutoDto produtosCadastrados : leadExistente.getProdutos()){
+              if (produtosCadastrados.equals(leadDto.getProdutos().get(numeroDeProdutos - 1))){
+                  throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
+              }
+              numeroDeProdutos --;
+          }
+        }
+    }
+
     public void cadastrarLead (LeadDto leadDto){
         if (verificarLeadRepetido(leadDto)){
            String nome = leadDto.getNome();
+           verificarProdutosIguais(nome, leadDto);
            atualizarProdutos(nome, leadDto);
         }
         else {
@@ -68,6 +79,11 @@ public class LeadService {
             leadEncontrado.getProdutos().add(referencia);
         }
     }
+
+
+
+
+
 
 
 
