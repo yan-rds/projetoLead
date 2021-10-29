@@ -18,14 +18,19 @@ import java.util.Optional;
 public class LeadService {
 
     List <LeadDto> leads = new ArrayList<>();
-    List <ProdutoDto> produtos = new ArrayList<>();
 
     public List <LeadDto> exibirLeads (){
         return leads;
     }
 
     public void cadastrarLead (LeadDto leadDto){
-        leads.add(leadDto);
+        if (verificarLeadRepetido(leadDto)){
+           String nome = leadDto.getNome();
+           atualizarProdutos(nome, leadDto);
+        }
+        else {
+            leads.add(leadDto);
+        }
     }
 
     public LeadDto encontrarLead (String nome){
@@ -53,7 +58,15 @@ public class LeadService {
         leadAAtualizar.setEmail(leadDto.getEmail());
         leadAAtualizar.setNome(leadDto.getNome());
         leadAAtualizar.setTelefone(leadDto.getNome());
+        atualizarProdutos(nome, leadDto);
         return leadAAtualizar;
+    }
+
+    public void atualizarProdutos (String nome, LeadDto leadDto){
+        LeadDto leadEncontrado = encontrarLead(nome);
+        for (ProdutoDto referencia : leadDto.getProdutos()){
+            leadEncontrado.getProdutos().add(referencia);
+        }
     }
 
 
