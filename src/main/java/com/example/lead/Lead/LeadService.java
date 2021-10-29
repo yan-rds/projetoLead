@@ -5,6 +5,9 @@ import com.example.lead.Lead.DTOs.ProdutoDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
@@ -43,6 +46,14 @@ public class LeadService {
             }
         }
         return leadCadastrado;
+    }
+
+    public LeadDto atualizarLead (String nome, LeadDto leadDto){
+        LeadDto leadAAtualizar = encontrarLead(nome);
+        leadAAtualizar.setEmail(leadDto.getEmail());
+        leadAAtualizar.setNome(leadDto.getNome());
+        leadAAtualizar.setTelefone(leadDto.getNome());
+        return leadAAtualizar;
     }
 
 

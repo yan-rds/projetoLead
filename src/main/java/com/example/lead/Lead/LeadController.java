@@ -30,6 +30,9 @@ public class LeadController {
         leadService.cadastrarLead(leadDto);
     }
 
-
+    @PutMapping("/{nome}")
+    public LeadDto atualizarLead (@PathVariable String nome, @RequestBody LeadDto leadDto){
+        return leadService.atualizarLead(nome, leadDto);
+    }
 
 }
